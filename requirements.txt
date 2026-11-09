@@ -1,0 +1,25 @@
+# Data manipulation & Numerical
+numpy<2.0.0
+pandas
+scipy
+
+# Machine Learning & Metrics
+scikit-learn
+joblib
+
+# Image Processing (Part B)
+opencv-python-headless
+pillow
+scikit-image
+
+# Text Processing (Part C)
+nltk
+
+# Visualization & Plotting
+matplotlib
+seaborn
+
+# GUI (Part D) & Environment
+streamlit
+jupyterlab
+notebook
