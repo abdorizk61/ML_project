@@ -1,6 +1,6 @@
 # End-to-End Machine Learning Project
 
-This repository hosts a multi-modal Machine Learning project covering numerical regression, image classification, text classification, and a unified interactive GUI. The development environment is fully containerized using Docker to ensure reproducibility across all operating systems (Windows, macOS, and Linux).
+This repository hosts a multi-modal Machine Learning project covering numerical regression, image classification, text classification, and a unified interactive GUI.
 
 ---
 
@@ -13,7 +13,8 @@ ML_Project_Team/
 │   ├── 01_eda_and_preprocessing.ipynb
 │   ├── 02_linear_regression.ipynb
 │   ├── 03_knn_regression.ipynb
-│   └── 04_model_comparison.ipynb
+│   ├── 04_model_comparison.ipynb
+│   └── 05_ensemble_models.ipynb
 │
 ├── part_b_images/                        # Part B: Image Classification (Flowers)
 │   ├── 01_image_preprocessing_logistic.ipynb
@@ -23,14 +24,13 @@ ML_Project_Team/
 ├── part_c_text/                          # Part C: Text Classification (BBC News / Arabic)
 │   ├── 01_text_preprocessing_logistic.ipynb
 │   ├── 02_linear_svm.ipynb
-│   └── 03_comparison_and_evaluation.ipynb
+│   ├── 03_comparison_and_evaluation.ipynb
+│   └── 04_from_scratch_numpy.ipynb
 │
 ├── gui/                                  # Part D: Deployment GUI
 │   └── app.py                            # Streamlit web interface
 │
 ├── models/                               # Exported serialized models (.pkl / .joblib)
-├── Dockerfile                            # Container specification
-├── docker-compose.yml                    # Multi-container orchestration config
 ├── requirements.txt                      # Python dependencies list
 └── README.md                             # Setup guide and instructions
 ```
@@ -47,16 +47,14 @@ ML_Project_Team/
 
 ---
 
-## 🚀 Quickstart: Setup & Run with Docker
+## 🚀 Quickstart: Local Setup & Run
 
-To avoid dependency issues and version mismatches, all team members should run the environment via Docker.
+Follow these steps to set up a local Python environment and run the notebooks and Streamlit dashboard.
 
 ### Prerequisites
 
-1. **Install Docker:**
-   * **Windows / macOS:** Install [Docker Desktop](https://www.docker.com/products/docker-desktop/). Ensure Docker Desktop is launched and running.
-   * **Linux (Fedora / Ubuntu):** Install `docker` and `docker-compose-plugin`, then start the system service (`sudo systemctl enable --now docker`).
-2. **Git:** Ensure Git is installed locally.
+* **Python 3.10+** (recommended: Python 3.11)
+* **Git** installed locally
 
 ---
 
@@ -69,37 +67,47 @@ git clone https://github.com/<YOUR_GITHUB_USERNAME>/ML_Project_Team.git
 cd ML_Project_Team
 ```
 
-#### 2. Start the Environment
-Build the Docker image and launch the container by running:
+#### 2. Create and Activate a Virtual Environment
+Using Python's built-in `venv`:
 ```bash
-docker compose up --build
+# Create the virtual environment
+python -m venv .venv
+
+# Activate on Linux / macOS:
+source .venv/bin/activate
+
+# Activate on Windows (PowerShell):
+# .venv\Scripts\Activate.ps1
 ```
-> *Note: The initial build downloads base images and installs libraries (this takes a few minutes). Subsequent launches will take only seconds using `docker compose up`.*
+*(Alternatively, if using `uv`: `uv venv && source .venv/bin/activate`)*
 
-#### 3. Access JupyterLab
-Once the terminal displays startup logs, open your web browser and navigate to:
-```text
-http://localhost:8888
-```
-* You can create, edit, and run all `.ipynb` notebooks directly from your browser.
-* All changes saved in JupyterLab are mirrored instantaneously on your host disk.
-
-#### 4. Run the Streamlit GUI
-When models are trained and saved into `models/`, launch the interactive dashboard:
-
-In a new terminal window (from the project directory), run:
+#### 3. Install Dependencies
+Install all required packages from `requirements.txt`:
 ```bash
-docker compose exec ml-environment streamlit run gui/app.py --server.port=8501 --server.address=0.0.0.0
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+*(Optional, for Part C NLTK tokenization/stopwords if needed)*:
+```bash
+python -m nltk.downloader stopwords punkt
+```
+
+#### 4. Open JupyterLab / Notebooks
+Launch JupyterLab from the project root:
+```bash
+jupyter lab
+```
+* Your browser will open at `http://localhost:8888`.
+* Navigate to `part_a_numerical/`, `part_b_images/`, or `part_c_text/` to run and edit the `.ipynb` notebooks.
+
+#### 5. Run the Streamlit GUI
+Once models are trained and saved into `models/`, launch the interactive dashboard:
+```bash
+streamlit run gui/app.py
 ```
 Open your browser and visit:
 ```text
 http://localhost:8501
-```
-
-#### 5. Stop the Environment
-To stop the running container, press `Ctrl + C` in the running terminal, or execute:
-```bash
-docker compose down
 ```
 
 ---
